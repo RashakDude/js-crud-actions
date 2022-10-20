@@ -18,7 +18,13 @@ module.exports = function (db) {
   router.delete("/products/:id", (req, res) => {
     db.get("products").remove({id: req.params.id}).write();
     res.status(204).send();
-  }); 
+  });
+  
+  router.get("/products/:id", (req, res) => {
+    const result = db.get("products").find({id: req.params.id}).value();
+    if(result) res.send(result);
+    else res.status(404).send(); 
+  });
 
   return router;
 };
