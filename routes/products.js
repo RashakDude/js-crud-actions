@@ -11,6 +11,15 @@ module.exports = function (db) {
     res.send(db.get("products").insert(newProduct).write());
   });
 
+  router.route("/products/search").get((req, res) => {
+    const keywords = req.query.keywords;
+    const result = db.get("products").filter(_ => {
+      const fullText = _.description + _.name + _.color;
+      return fullText.indexOf(keywords) !== -1;
+    })
+    res.send(result);
+  });
+
   router.patch("/products/:id", (req, res) => {
     res.send(db.get("products").find({id: req.params.id}).assign(req.body).write());
   });
