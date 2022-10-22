@@ -9,25 +9,24 @@ document.getElementById("load").onclick = function () {
   });
 };
 
-document.getElementById("submit").onclick = function(evt) {
-  evt.preventDefault();
-
+document.getElementById("submit").onclick = function () {
   const formData = new FormData(document.querySelector("form"));
-
   const newData = {
     name: formData.get("name"),
     price: formData.get("price"),
     quantity: formData.get("quantity"),
+    color: formData.get("color"),
     description: formData.get("description"),
-    color: formData.get("color")
   };
 
-  const updatedFields = _.omitBy(newData, function(v, k) {
+  const updatedFileds = _.omitBy(newData, function (v, k) {
     return k === "id" || currentProduct[k] == v;
-  })
+  });
 
-  axios.patch(`/api/products/${currentProduct.id}`, updatedFields).then(processResults);
-}
+  axios
+    .patch(`/api/products/${currentProduct.id}`, updatedFields)
+    .then(({ data }) => console.log(data));
+};
 
 function loadProduct(data) {
   document.getElementsByName("name")[0].value = data.name;

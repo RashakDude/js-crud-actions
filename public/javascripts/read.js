@@ -1,19 +1,18 @@
-document.getElementById("load").onclick = function() {
+document.getElementById("load").onclick = function () {
   const value = document.getElementById("product-id").value;
-  if(value === ""){
+  if (value === "") {
     axios.get("/api/products").then(addList);
-  } else{
-    console.log(value);
+  } else {
     axios
-    .get(`/api/products/${value}`)
-    .then(addSingle)
-    .catch((err) => {
-      if(err.response.status === 404){
-        notFound();
-      }
-    });
+      .get(`/api/products/${value}`)
+      .then(addSingle)
+      .catch((err) => {
+        if (err.response.status === 404) {
+          notFound();
+        }
+      });
   }
-}
+};
 
 function addList({ data }) {
   resetContentArea();
